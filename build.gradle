@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group 'zxh.demo.tw'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compile group: 'com.google.guava', name: 'guava', version: '28.1-jre'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testCompile 'org.mockito:mockito-core:3.2.4'
+}
