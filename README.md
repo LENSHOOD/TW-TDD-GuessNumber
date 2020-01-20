@@ -15,8 +15,8 @@ TW TDD Training Lesson 3 - Guess Number
 3. Compare with real number
     - compare digit by digit
         - if equal then A++
-    - sort input and real number, compare digit by digit
-        - if equal then B++
+    - merge input and secret without digital equals item, distinct
+        - B equals merge length of input and secret subtract distinct length
 4. Get output guess result
     - store single time result
     - output all history result
