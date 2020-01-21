@@ -48,4 +48,25 @@ public class GuessNumber {
         result.setB(guessed.length + secretNumber.length - ignoreForB.size() * 2 - distinctLength);
         return result;
     }
+
+    int[] takeInput(String input) {
+        if (input.length() != SECRET_LEN) {
+            throw new InvalidGuessNumberException();
+        }
+
+        Set<Integer> guessNumberSet = Sets.newTreeSet();
+        for (String c : input.split("")) {
+            try {
+                guessNumberSet.add(Integer.valueOf(c));
+            } catch (NumberFormatException e) {
+                throw new InvalidGuessNumberException();
+            }
+        }
+
+        if (guessNumberSet.size() != SECRET_LEN) {
+            throw new InvalidGuessNumberException();
+        }
+
+        return guessNumberSet.stream().mapToInt(i -> i).toArray();
+    }
 }

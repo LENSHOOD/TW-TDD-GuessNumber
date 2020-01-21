@@ -6,8 +6,7 @@ import java.util.Arrays;
 import java.util.function.IntPredicate;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -132,5 +131,32 @@ public class GuessNumberTest {
 
         assertEquals(2, result.getA());
         assertEquals(2, result.getB());
+    }
+
+    @Test
+    public void should_throw_invalid_guess_number_exception_when_input_number_not_4_digits() {
+        GuessNumber guessNumber = new GuessNumber();
+        assertThrows(InvalidGuessNumberException.class, () -> guessNumber.takeInput("12345"));
+    }
+
+    @Test
+    public void should_throw_invalid_guess_number_exception_when_input_number_not_integer() {
+        GuessNumber guessNumber = new GuessNumber();
+        assertThrows(InvalidGuessNumberException.class, () -> guessNumber.takeInput("1a2b"));
+    }
+
+    @Test
+    public void should_throw_invalid_guess_number_exception_when_input_number_have_duplicates() {
+        GuessNumber guessNumber = new GuessNumber();
+        assertThrows(InvalidGuessNumberException.class, () -> guessNumber.takeInput("1123"));
+    }
+
+    @Test
+    public void should_1_2_3_4_int_array_when_input_1234() {
+        GuessNumber guessNumber = new GuessNumber();
+
+        int[] guessInput = guessNumber.takeInput("1234");
+
+        assertArrayEquals(new int[]{1, 2, 3, 4}, guessInput);
     }
 }
