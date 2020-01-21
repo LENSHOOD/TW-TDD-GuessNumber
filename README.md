@@ -22,3 +22,4 @@ TW TDD Training Lesson 3 - Guess Number
     - output all history result
     - output xAxB, x is number of A and B
     - output "Wrong input, input again" if validate fail
+5. stop program when guess correct or exceed 6 times 

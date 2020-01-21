@@ -152,7 +152,7 @@ public class GuessNumberTest {
     }
 
     @Test
-    public void should_1_2_3_4_int_array_when_input_1234() {
+    public void should_1_2_3_4_int_array_when_input_1234() throws InvalidGuessNumberException {
         GuessNumber guessNumber = new GuessNumber();
 
         int[] guessInput = guessNumber.takeInput("1234");
@@ -171,7 +171,7 @@ public class GuessNumberTest {
     }
 
     @Test
-    public void should_return_1A1B_2A2B__wrong_input_input_again_when_output_third() {
+    public void should_return_1A1B_2A2B_wrong_input_input_again_when_output_third() {
         GuessNumber guessNumber = new GuessNumber();
 
         guessNumber.outputResult("1A1B");
@@ -179,5 +179,36 @@ public class GuessNumberTest {
         String result = guessNumber.outputResult("Wrong input, input again");
 
         assertArrayEquals(new String[]{"1A1B", "2A2B", "Wrong input, input again"}, result.split("\n"));
+    }
+
+    @Test
+    public void should_return_wrong_input_input_again_1A1B_4A0B_when_guess_correct_after_third_time_guess() {
+        GuessNumber guessNumber = spy(new GuessNumber());
+        when(guessNumber.generateSecretNumber()).thenReturn(new int[]{1, 2, 3, 4});
+        guessNumber.prepareToGuess();
+
+        guessNumber.guess("1167");
+        guessNumber.guess("1367");
+        String result = guessNumber.guess("1234");
+
+        assertArrayEquals(new String[]{"Wrong input, input again", "1A1B", "4A0B"}, result.split("\n"));
+        assertTrue(Thread.interrupted());
+    }
+
+    @Test
+    public void should_return_wrong_input_input_again_1A1B_1A1B_1A1B_1A1B_1A1B_when_after_sixth_time_guess() {
+        GuessNumber guessNumber = spy(new GuessNumber());
+        when(guessNumber.generateSecretNumber()).thenReturn(new int[]{1, 2, 3, 4});
+        guessNumber.prepareToGuess();
+
+        guessNumber.guess("1167");
+        guessNumber.guess("1367");
+        guessNumber.guess("1367");
+        guessNumber.guess("1367");
+        guessNumber.guess("1367");
+        String result = guessNumber.guess("1367");
+
+        assertArrayEquals(new String[]{"Wrong input, input again", "1A1B", "1A1B", "1A1B", "1A1B", "1A1B"}, result.split("\n"));
+        assertTrue(Thread.interrupted());
     }
 }

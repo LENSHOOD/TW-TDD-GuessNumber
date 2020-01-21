@@ -19,4 +19,9 @@ public class GuessResult {
     void setB(int b) {
         this.b = b;
     }
+
+    @Override
+    public String toString() {
+        return a + "A" + b + "B";
+    }
 }

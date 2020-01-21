@@ -16,10 +16,14 @@ import java.util.stream.IntStream;
 public class GuessNumber {
     private static final Random RANDOM = new Random();
     private static final int SECRET_LEN = 4;
+    private static final int MAX_GUESS_TRY = 6;
+    public static final String CORRECT_RESULT = "4A0B";
+
     private int[] secretNumber;
     private List<String> resultCache = Lists.newArrayList();
+    private int guessTimes;
 
-    void prepareToGuess() {
+    public void prepareToGuess() {
         secretNumber = generateSecretNumber();
     }
 
@@ -30,6 +34,23 @@ public class GuessNumber {
         } while (secretSet.size() != SECRET_LEN);
 
         return secretSet.stream().mapToInt(i -> i).toArray();
+    }
+
+    public String guess(String input) {
+        guessTimes++;
+        String result = "";
+        try {
+            result =  outputResult(compareWith(takeInput(input)).toString());
+            return result;
+        } catch (InvalidGuessNumberException e) {
+            result = outputResult("Wrong input, input again");
+            return result;
+        } finally {
+            String lastOutput = result.split("\n")[guessTimes - 1];
+            if (CORRECT_RESULT.equals(lastOutput) || guessTimes == MAX_GUESS_TRY) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     public GuessResult compareWith(int[] guessed) {
@@ -52,7 +73,7 @@ public class GuessNumber {
         return result;
     }
 
-    int[] takeInput(String input) {
+    int[] takeInput(String input) throws InvalidGuessNumberException {
         if (input.length() != SECRET_LEN) {
             throw new InvalidGuessNumberException();
         }

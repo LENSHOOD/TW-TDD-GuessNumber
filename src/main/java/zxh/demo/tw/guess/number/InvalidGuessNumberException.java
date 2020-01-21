@@ -5,5 +5,5 @@ package zxh.demo.tw.guess.number;
  * @author zhangxuhai
  * @date 2020/1/21
 */
-public class InvalidGuessNumberException extends RuntimeException {
+public class InvalidGuessNumberException extends Exception {
 }
