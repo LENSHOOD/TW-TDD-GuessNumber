@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 /**
  * zxh.demo.tw.guess.number.GuessNumber:
@@ -56,21 +55,19 @@ public class GuessNumber {
 
     public GuessResult compareWith(int[] guessed) {
         GuessResult result = new GuessResult();
-        Set<Integer> ignoreForB = Sets.newHashSet();
         for (int i = 0; i < SECRET_LEN; i++) {
-            if (guessed[i] == secretNumber[i]) {
-                result.increaseA();
-                ignoreForB.add(guessed[i]);
+            for (int j = 0; j < SECRET_LEN; j++) {
+                if (secretNumber[i] != guessed[j]) {
+                    continue;
+                }
+
+                if (i == j) {
+                    result.increaseA();
+                } else {
+                    result.increaseB();
+                }
             }
         }
-
-        int distinctLength = IntStream.concat(IntStream.of(guessed), IntStream.of(secretNumber))
-                .filter(i -> !ignoreForB.contains(i))
-                .distinct()
-                .toArray()
-                .length;
-
-        result.setB(guessed.length + secretNumber.length - ignoreForB.size() * 2 - distinctLength);
         return result;
     }
 

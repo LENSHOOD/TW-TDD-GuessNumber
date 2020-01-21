@@ -16,8 +16,8 @@ public class GuessResult {
         a++;
     }
 
-    void setB(int b) {
-        this.b = b;
+    void increaseB() {
+        b++;
     }
 
     @Override
