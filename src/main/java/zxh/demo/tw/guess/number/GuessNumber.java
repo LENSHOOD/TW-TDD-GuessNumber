@@ -1,7 +1,9 @@
 package zxh.demo.tw.guess.number;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.IntStream;
@@ -13,8 +15,9 @@ import java.util.stream.IntStream;
 */
 public class GuessNumber {
     private static final Random RANDOM = new Random();
-    public static final int SECRET_LEN = 4;
+    private static final int SECRET_LEN = 4;
     private int[] secretNumber;
+    private List<String> resultCache = Lists.newArrayList();
 
     void prepareToGuess() {
         secretNumber = generateSecretNumber();
@@ -68,5 +71,10 @@ public class GuessNumber {
         }
 
         return guessNumberSet.stream().mapToInt(i -> i).toArray();
+    }
+
+    public String outputResult(String result) {
+        resultCache.add(result);
+        return String.join("\n", resultCache);
     }
 }

@@ -159,4 +159,25 @@ public class GuessNumberTest {
 
         assertArrayEquals(new int[]{1, 2, 3, 4}, guessInput);
     }
+
+    @Test
+    public void should_return_1A1B_2A2B_when_output_twice() {
+        GuessNumber guessNumber = new GuessNumber();
+
+        guessNumber.outputResult("1A1B");
+        String result = guessNumber.outputResult("2A2B");
+
+        assertArrayEquals(new String[]{"1A1B", "2A2B"}, result.split("\n"));
+    }
+
+    @Test
+    public void should_return_1A1B_2A2B__wrong_input_input_again_when_output_third() {
+        GuessNumber guessNumber = new GuessNumber();
+
+        guessNumber.outputResult("1A1B");
+        guessNumber.outputResult("2A2B");
+        String result = guessNumber.outputResult("Wrong input, input again");
+
+        assertArrayEquals(new String[]{"1A1B", "2A2B", "Wrong input, input again"}, result.split("\n"));
+    }
 }
