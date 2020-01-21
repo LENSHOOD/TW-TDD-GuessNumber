@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.IntStream;
 
@@ -97,5 +98,16 @@ public class GuessNumber {
     public String outputResult(String result) {
         resultCache.add(result);
         return String.join("\n", resultCache);
+    }
+
+    public static void main(String[] args) {
+        GuessNumber guessNumber = new GuessNumber();
+        guessNumber.prepareToGuess();
+
+        Scanner scanner = new Scanner(System.in);
+        while (!Thread.interrupted()) {
+            String input = scanner.nextLine();
+            System.out.println(guessNumber.guess(input));
+        }
     }
 }
