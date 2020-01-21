@@ -1,6 +1,9 @@
 package zxh.demo.tw.guess.number;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
+
+import java.util.List;
 
 /**
  * GuessResult:
@@ -9,19 +12,25 @@ import lombok.Getter;
 */
 @Getter
 public class GuessResult {
-    private int a;
-    private int b;
+    private List<Integer> a = Lists.newArrayList();
+    private List<Integer> b = Lists.newArrayList();
+    private boolean invalid;
 
-    void increaseA() {
-        a++;
+    public static GuessResult createInvalidResult() {
+        GuessResult result = new GuessResult();
+        result.invalid = true;
+        return result;
     }
 
-    void increaseB() {
-        b++;
+    void addA(int i) {
+        a.add(i);
     }
 
-    @Override
-    public String toString() {
-        return a + "A" + b + "B";
+    void addB(int i) {
+        b.add(i);
+    }
+
+    boolean isInvalid() {
+        return invalid;
     }
 }

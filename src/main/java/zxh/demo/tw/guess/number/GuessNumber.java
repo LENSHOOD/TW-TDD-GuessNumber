@@ -40,10 +40,10 @@ public class GuessNumber {
         guessTimes++;
         String result = "";
         try {
-            result =  outputResult(compareWith(takeInput(input)).toString());
+            result =  outputResult(compareWith(takeInput(input)));
             return result;
         } catch (InvalidGuessNumberException e) {
-            result = outputResult("Wrong input, input again");
+            result = outputResult(GuessResult.createInvalidResult());
             return result;
         } finally {
             String lastOutput = result.split("\n")[guessTimes - 1];
@@ -62,9 +62,9 @@ public class GuessNumber {
                 }
 
                 if (i == j) {
-                    result.increaseA();
+                    result.addA(guessed[j]);
                 } else {
-                    result.increaseB();
+                    result.addB(guessed[j]);
                 }
             }
         }
@@ -92,8 +92,11 @@ public class GuessNumber {
         return guessNumberSet.stream().mapToInt(i -> i).toArray();
     }
 
-    public String outputResult(String result) {
-        resultCache.add(result);
+    public String outputResult(GuessResult guessResult) {
+        String output = guessResult.isInvalid()
+                ? "Wrong input, input again"
+                : guessResult.getA().size() + "A" + guessResult.getB().size() + "B";
+        resultCache.add(output);
         return String.join("\n", resultCache);
     }
 

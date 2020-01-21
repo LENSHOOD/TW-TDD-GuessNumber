@@ -51,7 +51,7 @@ public class GuessNumberTest {
         guessNumber.prepareToGuess();
         GuessResult result = guessNumber.compareWith(guessed);
 
-        assertEquals(4, result.getA());
+        assertEquals(4, result.getA().size());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class GuessNumberTest {
         guessNumber.prepareToGuess();
         GuessResult result = guessNumber.compareWith(guessed);
 
-        assertEquals(2, result.getA());
+        assertEquals(2, result.getA().size());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class GuessNumberTest {
         guessNumber.prepareToGuess();
         GuessResult result = guessNumber.compareWith(guessed);
 
-        assertEquals(0, result.getA());
+        assertEquals(0, result.getA().size());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class GuessNumberTest {
         guessNumber.prepareToGuess();
         GuessResult result = guessNumber.compareWith(guessed);
 
-        assertEquals(4, result.getB());
+        assertEquals(4, result.getB().size());
     }
 
     @Test
@@ -103,7 +103,7 @@ public class GuessNumberTest {
         guessNumber.prepareToGuess();
         GuessResult result = guessNumber.compareWith(guessed);
 
-        assertEquals(2, result.getB());
+        assertEquals(2, result.getB().size());
     }
 
     @Test
@@ -116,7 +116,7 @@ public class GuessNumberTest {
         guessNumber.prepareToGuess();
         GuessResult result = guessNumber.compareWith(guessed);
 
-        assertEquals(0, result.getB());
+        assertEquals(0, result.getB().size());
     }
 
     @Test
@@ -129,8 +129,8 @@ public class GuessNumberTest {
         guessNumber.prepareToGuess();
         GuessResult result = guessNumber.compareWith(guessed);
 
-        assertEquals(2, result.getA());
-        assertEquals(2, result.getB());
+        assertEquals(2, result.getA().size());
+        assertEquals(2, result.getB().size());
     }
 
     @Test
@@ -163,9 +163,14 @@ public class GuessNumberTest {
     @Test
     public void should_return_1A1B_2A2B_when_output_twice() {
         GuessNumber guessNumber = new GuessNumber();
+        GuessResult guessResult = new GuessResult();
+        guessResult.addA(1);
+        guessResult.addB(2);
+        guessNumber.outputResult(guessResult);
+        guessResult.addA(3);
+        guessResult.addB(4);
 
-        guessNumber.outputResult("1A1B");
-        String result = guessNumber.outputResult("2A2B");
+        String result = guessNumber.outputResult(guessResult);
 
         assertArrayEquals(new String[]{"1A1B", "2A2B"}, result.split("\n"));
     }
@@ -173,10 +178,15 @@ public class GuessNumberTest {
     @Test
     public void should_return_1A1B_2A2B_wrong_input_input_again_when_output_third() {
         GuessNumber guessNumber = new GuessNumber();
+        GuessResult guessResult = new GuessResult();
+        guessResult.addA(1);
+        guessResult.addB(2);
+        guessNumber.outputResult(guessResult);
+        guessResult.addA(3);
+        guessResult.addB(4);
+        guessNumber.outputResult(guessResult);
 
-        guessNumber.outputResult("1A1B");
-        guessNumber.outputResult("2A2B");
-        String result = guessNumber.outputResult("Wrong input, input again");
+        String result = guessNumber.outputResult(GuessResult.createInvalidResult());
 
         assertArrayEquals(new String[]{"1A1B", "2A2B", "Wrong input, input again"}, result.split("\n"));
     }
