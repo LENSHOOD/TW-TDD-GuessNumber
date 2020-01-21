@@ -161,7 +161,7 @@ public class GuessNumberTest {
     }
 
     @Test
-    public void should_return_1A1B_2A2B_when_output_twice() {
+    public void should_return_1A1B_2A2B_with_instruction_when_output_twice() {
         GuessNumber guessNumber = new GuessNumber();
         GuessResult guessResult = new GuessResult();
         guessResult.addA(1);
@@ -172,11 +172,12 @@ public class GuessNumberTest {
 
         String result = guessNumber.outputResult(guessResult);
 
-        assertArrayEquals(new String[]{"1A1B", "2A2B"}, result.split("\n"));
+        assertArrayEquals(new String[]{"1A1B, 1 correct, 2 wrong position", "2A2B, 1 and 3 correct, 2 and 4 wrong position"},
+                result.split("\n"));
     }
 
     @Test
-    public void should_return_1A1B_2A2B_wrong_input_input_again_when_output_third() {
+    public void should_return_1A1B_2A2B_wrong_input_input_again_with_instruction_when_output_third() {
         GuessNumber guessNumber = new GuessNumber();
         GuessResult guessResult = new GuessResult();
         guessResult.addA(1);
@@ -188,11 +189,14 @@ public class GuessNumberTest {
 
         String result = guessNumber.outputResult(GuessResult.createInvalidResult());
 
-        assertArrayEquals(new String[]{"1A1B", "2A2B", "Wrong input, input again"}, result.split("\n"));
+        assertArrayEquals(new String[]{"1A1B, 1 correct, 2 wrong position",
+                        "2A2B, 1 and 3 correct, 2 and 4 wrong position",
+                        "Wrong input, input again, Wrong Input, input again"},
+                result.split("\n"));
     }
 
     @Test
-    public void should_return_wrong_input_input_again_1A1B_4A0B_when_guess_correct_after_third_time_guess() {
+    public void should_return_wrong_input_input_again_1A1B_4A0B_with_instruction_when_guess_correct_after_third_time_guess() {
         GuessNumber guessNumber = spy(new GuessNumber());
         when(guessNumber.generateSecretNumber()).thenReturn(new int[]{1, 2, 3, 4});
         guessNumber.prepareToGuess();
@@ -201,7 +205,10 @@ public class GuessNumberTest {
         guessNumber.guess("1367");
         String result = guessNumber.guess("1234");
 
-        assertArrayEquals(new String[]{"Wrong input, input again", "1A1B", "4A0B"}, result.split("\n"));
+        assertArrayEquals(new String[]{"Wrong input, input again, Wrong Input, input again",
+                        "1A1B, 1 correct, 3 wrong position",
+                        "4A0B, all correct"},
+                result.split("\n"));
         assertTrue(Thread.interrupted());
     }
 
@@ -218,7 +225,13 @@ public class GuessNumberTest {
         guessNumber.guess("1367");
         String result = guessNumber.guess("1367");
 
-        assertArrayEquals(new String[]{"Wrong input, input again", "1A1B", "1A1B", "1A1B", "1A1B", "1A1B"}, result.split("\n"));
+        assertArrayEquals(new String[]{"Wrong input, input again, Wrong Input, input again",
+                    "1A1B, 1 correct, 3 wrong position",
+                    "1A1B, 1 correct, 3 wrong position",
+                    "1A1B, 1 correct, 3 wrong position",
+                    "1A1B, 1 correct, 3 wrong position",
+                    "1A1B, 1 correct, 3 wrong position"},
+                result.split("\n"));
         assertTrue(Thread.interrupted());
     }
 }

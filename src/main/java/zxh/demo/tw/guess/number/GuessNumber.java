@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * zxh.demo.tw.guess.number.GuessNumber:
@@ -17,7 +19,7 @@ public class GuessNumber {
     private static final Random RANDOM = new Random();
     private static final int SECRET_LEN = 4;
     private static final int MAX_GUESS_TRY = 6;
-    public static final String CORRECT_RESULT = "4A0B";
+    public static final String CORRECT_RESULT = "4A0B, all correct";
 
     private int[] secretNumber;
     private List<String> resultCache = Lists.newArrayList();
@@ -93,10 +95,20 @@ public class GuessNumber {
     }
 
     public String outputResult(GuessResult guessResult) {
-        String output = guessResult.isInvalid()
-                ? "Wrong input, input again"
-                : guessResult.getA().size() + "A" + guessResult.getB().size() + "B";
-        resultCache.add(output);
+        Function<GuessResult, String> normalResult = g ->
+                g.getA().size() + "A" + g.getB().size() + "B"
+                        + ", "
+                        + (g.getA().size() == SECRET_LEN
+                            ? "all correct"
+                            : g.getA().stream().map(String::valueOf).collect(Collectors.joining(" and "))
+                                + " correct, "
+                                + g.getB().stream().map(String::valueOf).collect(Collectors.joining(" and "))
+                                + " wrong position");
+
+        String result = guessResult.isInvalid()
+                ? "Wrong input, input again, Wrong Input, input again"
+                : normalResult.apply(guessResult);
+        resultCache.add(result);
         return String.join("\n", resultCache);
     }
 
